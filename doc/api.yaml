@@ -1,0 +1,1318 @@
+---
+openapi: 3.0.0
+info:
+  title: diha-agency-api
+  description: An early version of an API for a travel Agency named "Diha Agency".
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/sanmandresy/diha_agency_api/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /hello_there:
+    get:
+      tags:
+      - Security
+      description: respond with a great quote if the server is functionnal.
+      operationId: greet
+      responses:
+        "200":
+          description: 'A legend once said '
+          content:
+            text/plain:
+              example: General Kenobi !
+  /clients:
+    get:
+      tags:
+      - Clients
+      description: get all registered clients
+      operationId: getClients
+      parameters:
+      - name: page
+        in: query
+        description: number of page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: max number of rows in a page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: returns a list of all clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+    post:
+      tags:
+      - Clients
+      description: add a new client to our list.
+      operationId: createNewClient
+      requestBody:
+        description: Client to add in our list
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreClient'
+        required: true
+      responses:
+        "200":
+          description: return the created client
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /clients/{client_id}:
+    get:
+      tags:
+      - Clients
+      description: get a specified client
+      operationId: getClientById
+      parameters:
+      - name: client_id
+        in: path
+        description: client's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: returns a specific client when its id is given
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    put:
+      tags:
+      - Clients
+      description: modify a specified client's details
+      operationId: updateClientById
+      parameters:
+      - name: client_id
+        in: path
+        description: client's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: Client to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreClient'
+        required: true
+      responses:
+        "200":
+          description: return the updated client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    delete:
+      tags:
+      - Clients
+      description: delete a specified client
+      operationId: deleteClientById
+      parameters:
+      - name: client_id
+        in: path
+        description: client's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: client's details removed successfully !
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Client deleted !
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /admins/{admin_id}:
+    get:
+      tags:
+      - Admin
+      description: get a specified admin details
+      operationId: getAdminById
+      parameters:
+      - name: admin_id
+        in: path
+        description: admin's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: returns a specific admin when its id is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /hotels:
+    get:
+      tags:
+      - Hotel
+      description: get all hotels available
+      operationId: getHotels
+      parameters:
+      - name: page
+        in: query
+        description: number of page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: max number of rows in a page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: returns a list of hotels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+    post:
+      tags:
+      - Hotel
+      description: add a new hotel to our list
+      operationId: createNewHotel
+      requestBody:
+        description: Hotel to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreHotel'
+        required: true
+      responses:
+        "200":
+          description: return the created hotel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /hotels/{location}:
+    get:
+      tags:
+      - Hotel
+      description: get all hotels available in specified location
+      operationId: getHotelsByLocation
+      parameters:
+      - name: location
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: number of page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: max number of rows in a page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: returns a list of hotels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /hotels/{hotel_id}:
+    get:
+      tags:
+      - Hotel
+      description: get a specified hotel with its details
+      operationId: getHotelById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: returns a specific hotel when its id is given
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    put:
+      tags:
+      - Hotel
+      description: modify a specified hotel's details
+      operationId: updateHotelById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: Hotel to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreHotel'
+        required: true
+      responses:
+        "200":
+          description: return the updated hotel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hotel'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    delete:
+      tags:
+      - Hotel
+      description: delete a specified hotel
+      operationId: deleteHotelById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: hotel removed successfully !
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hotel deleted !
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /hotels/{hotel_id}/rooms:
+    get:
+      tags:
+      - Hotel
+      description: get all rooms available
+      operationId: getRooms
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: number of page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: max number of rows in a page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: returns a list of rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+  /hotels/{hotel_id}/{room_id}:
+    get:
+      tags:
+      - Hotel
+      description: get a specified room with its details
+      operationId: getRoomById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      - name: room_id
+        in: path
+        description: room's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: returns a specific room when its id is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    put:
+      tags:
+      - Hotel
+      description: modify a specified hotel's details
+      operationId: updateRoomById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      - name: room_id
+        in: path
+        description: room's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: room to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreRoom'
+        required: true
+      responses:
+        "200":
+          description: return the updated room
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    delete:
+      tags:
+      - Hotel
+      description: delete a specified room
+      operationId: deleteRoomById
+      parameters:
+      - name: hotel_id
+        in: path
+        description: hotel's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      - name: room_id
+        in: path
+        description: room's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: room removed successfully !
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Room deleted !
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /transactions:
+    get:
+      tags:
+      - Transaction
+      description: get a list of all transactions
+      operationId: getTransactions
+      parameters:
+      - name: page
+        in: query
+        description: number of page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: page_size
+        in: query
+        description: max number of rows in a page
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: returns a list of transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+    post:
+      tags:
+      - Transaction
+      description: add a new transaction to our list
+      operationId: createNewTransaction
+      requestBody:
+        description: Transaction going on.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+        required: true
+      responses:
+        "200":
+          description: return the created Transaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+  /transactions/{transaction_id}:
+    get:
+      tags:
+      - Transaction
+      description: get a specified transaction.
+      operationId: getTransactionById
+      parameters:
+      - name: transaction_id
+        in: path
+        description: transaction's id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: returns a specific transaction when its id is given
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestException'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotAuthorizedException'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceNotFoundException'
+        "429":
+          description: Too many requests to the API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyRequestsException'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerException'
+components:
+  schemas:
+    PreClient:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        sex:
+          type: string
+          enum:
+          - M
+          - F
+        birth_date:
+          type: string
+          format: date
+        nationality:
+          type: string
+          example: Malagasy
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+        credit_card_number:
+          type: string
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+          example: client_id
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        sex:
+          type: string
+          enum:
+          - M
+          - F
+        birth_date:
+          type: string
+          format: date
+        nationality:
+          type: string
+          example: Malagasy
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+        registration_datetime:
+          type: string
+          format: date-time
+        credit_card_number:
+          type: string
+    Admin:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+          example: JohnDoeIt
+    PreHotel:
+      type: object
+      properties:
+        name:
+          type: string
+          example: La Villa Romantica
+        location:
+          type: string
+          example: Roma
+        details:
+          allOf:
+          - $ref: '#/components/schemas/HotelDetails'
+    Hotel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: La Villa Romantica
+        location:
+          type: string
+          example: Roma
+        details:
+          allOf:
+          - $ref: '#/components/schemas/HotelDetails'
+    HotelDetails:
+      type: object
+      properties:
+        description:
+          type: string
+        owner:
+          type: string
+        number_of_rooms:
+          type: integer
+        ratings:
+          type: integer
+          example: 5
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+    HotelServices:
+      type: string
+      enum:
+      - room service
+      - spa
+      - sauna
+      - parking
+      - pool
+      - massage
+      - tennis court
+    PreRoom:
+      type: object
+      properties:
+        ref:
+          type: string
+          example: Venus
+        room_type:
+          allOf:
+          - $ref: '#/components/schemas/RoomTypes'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/RoomStatus'
+        startingDateBooking:
+          type: string
+          format: date-time
+        endingDateBooking:
+          type: string
+          format: date-time
+        client_details:
+          allOf:
+          - $ref: '#/components/schemas/Client'
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+          example: room_id
+        ref:
+          type: string
+          example: Venus
+        room_type:
+          allOf:
+          - $ref: '#/components/schemas/RoomTypes'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/RoomStatus'
+        startingDateBooking:
+          type: string
+          format: date-time
+        endingDateBooking:
+          type: string
+          format: date-time
+        client_details:
+          allOf:
+          - $ref: '#/components/schemas/Client'
+    RoomTypes:
+      type: string
+      enum:
+      - simple
+      - double
+      - family
+      - deluxe
+    RoomStatus:
+      type: string
+      enum:
+      - occupied
+      - booked
+      - free
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        client_name:
+          type: string
+        client_card_ref:
+          type: string
+        amount:
+          type: integer
+    TransactionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        client_name:
+          type: string
+        client_card_ref:
+          type: string
+        amount:
+          type: integer
+        transaction_date:
+          type: string
+          format: date-time
+    Page:
+      type: integer
+      description: Start at `1`
+    PageSize:
+      type: integer
+      description: Cannot exceed `500`
+    Exception:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestException:
+      example:
+        type: BadRequestException
+        message: Bad request
+      allOf:
+      - $ref: '#/components/schemas/Exception'
+    NotAuthorizedException:
+      example:
+        type: NotAuthorizedException
+        message: Not authorized
+      allOf:
+      - $ref: '#/components/schemas/Exception'
+    ResourceNotFoundException:
+      example:
+        type: ResourceNotFoundException
+        message: Resource of type <T> identified by <I> not found
+      allOf:
+      - $ref: '#/components/schemas/Exception'
+    TooManyRequestsException:
+      example:
+        type: TooManyRequestsException
+        message: Too many requests
+      allOf:
+      - $ref: '#/components/schemas/Exception'
+    InternalServerException:
+      example:
+        type: InternalServerException
+        message: Unexpected error
+      allOf:
+      - $ref: '#/components/schemas/Exception'
+  responses:
+    "400":
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestException'
+    "403":
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotAuthorizedException'
+    "404":
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceNotFoundException'
+    "429":
+      description: Too many requests to the API
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsException'
+    "500":
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerException'
