@@ -31,6 +31,8 @@ paths:
         in: query
         description: ref for sort
         required: true
+        style: form
+        explode: true
         schema:
           type: string
       responses:
@@ -977,7 +979,6 @@ components:
           format: date
         credit_card_number:
           type: string
-
     PreHotel:
       type: object
       properties:
@@ -1026,7 +1027,6 @@ components:
         email:
           type: string
           format: email
-
     HotelServices:
       type: string
       enum:
@@ -1065,14 +1065,14 @@ components:
       properties:
         room_id:
           type: integer
-          example : 56
+          example: 56
         hotel:
           allOf:
-            - $ref : "#/components/schemas/Hotel"
+          - $ref: '#/components/schemas/Hotel'
         client:
           allOf:
-            - $ref: "#/components/schemas/Client"
-        price :
+          - $ref: '#/components/schemas/Client'
+        price:
           type: integer
         ref:
           type: string
@@ -1094,7 +1094,7 @@ components:
       properties:
         client:
           allOf:
-            - $ref: "#/components/schemas/Client"
+          - $ref: '#/components/schemas/Client'
         client_card_ref:
           type: string
         amount:
@@ -1102,11 +1102,11 @@ components:
     Transaction:
       type: object
       properties:
-        id :
+        id:
           type: integer
         client:
           allOf:
-            - $ref: "#/components/schemas/Client"
+          - $ref: '#/components/schemas/Client'
         client_card_ref:
           type: string
         amount:
@@ -1118,7 +1118,7 @@ components:
           type: integer
         client:
           allOf:
-            - $ref: "#/components/schemas/Client"
+          - $ref: '#/components/schemas/Client'
         client_card_ref:
           type: string
         amount:

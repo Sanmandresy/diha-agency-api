@@ -1,0 +1,15 @@
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '63042385460472106', '2023-09-16', 1);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '4017955193740212', '2022-12-04', 2);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('120000', '3555932765541823', '2023-05-01', 3);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('7000', '5470396032694921', '2024-01-14', 4);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '5641827789398850227', '2024-06-05', 5);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('7000', '5602248962391617', '2023-12-07', 6);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '5610261231633891', '2024-08-19', 7);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('7000', '3563560961304280', '2024-03-30', 8);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('7000', '3571540214770545', '2024-07-06', 9);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('120000', '6334716098723976136', '2022-10-18', 10);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('120000', '4026881826644275', '2023-10-26', 11);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '6398094625392675', '2023-04-10', 12);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('56000', '5010128335543621', '2024-02-27', 13);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '3580486946175877', '2023-12-19', 14);
+insert into transaction (amount, credit_ref, transaction_date, client) values ('80000', '5602226243819744014', '2023-05-02', 15);

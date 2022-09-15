@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "3880110f-57fa-46f1-9504-2f743c2736d4",
+		"name": "Diha Agency API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21046166"
+	},
+	"item": [
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "list clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/clients?ordered=firstName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients"
+							],
+							"query": [
+								{
+									"key": "ordered",
+									"value": "firstName"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "client id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/clients/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new client",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"firstName\": \"Mario\",\n    \"lastName\": \"Kart\",\n    \"gender\":\"M\",\n    \"birthdate\":\"1995-09-12\",\n    \"nationality\":\"Italian\",\n    \"address\":\"Sesame Street\",\n    \"phone\":\"45580\",\n    \"email\":\"mario@bowser.com\",\n    \"registrationDate\":\"2022-09-14\",\n    \"creditCardNumber\":\"564565122\",\n    \"username\" : \"rioma\",\n    \"password\":\"herewego\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update client",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"username\": \"jojoedo\",\n    \"gender\":\"M\",\n    \"birthdate\":\"2022-09-12\",\n    \"nationality\":\"Australian\",\n    \"address\":\"Palma Street\",\n    \"phone\":\"123456\",\n    \"email\":\"user@example.com\",\n    \"registrationDate\":\"2022-06-01\",\n    \"creditCardNumber\":\"555488879\",\n    \"password\":\"doeitjohn\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/clients/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "hello",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hello_there",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hello_there"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hotels",
+			"item": [
+				{
+					"name": "get hotels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add hotel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ilay Anjeliko\",\n  \"location\": \"Fo\",\n  \"description\": \"Bika tarehy ihany koa\",\n  \"owner\": \"Mirado\",\n  \"number_of_rooms\": 6,\n  \"ratings\": 3,\n  \"phone\": \"string\",\n  \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/hotels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get hotels by location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/locations/roma",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"locations",
+								"roma"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get hotel by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update hotel by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Ilay Anjeliko\",\n  \"location\": \"Heart\",\n  \"description\": \"Bika tarehy ihany koa\",\n  \"owner\": \"Mirado\",\n  \"number_of_rooms\": 6,\n  \"ratings\": 3,\n  \"phone\": \"string\",\n  \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/hotels/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "list of hotel's rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/1/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"1",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get specific room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/1/rooms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"1",
+								"rooms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete room",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hotels/1/rooms/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"1",
+								"rooms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update room",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"ref\": \"Sylphas\",\n        \"roomType\": \"simple\",\n        \"price\": 120000,\n        \"roomStatus\": \"free\",\n        \"startingDateBooking\": \"2022-09-14\",\n        \"endingDateBooking\": \"2022-09-16\",\n        \"hotel\": {\n            \"hotelId\": 1,\n            \"name\": \"La Villa Romantica\",\n            \"location\": \"Roma\",\n            \"description\": \"A villa based in Roma, in Italy\",\n            \"owner\": \"Giorgo Giovanno\",\n            \"numberOfRooms\": 35,\n            \"ratings\": 4,\n            \"phone\": \"+261345678941\",\n            \"email\": \"italy@vivalavida.it\"\n        },\n        \"client\": {\n            \"clientId\": 1,\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"username\": \"jojoedo\",\n            \"gender\": \"M\",\n            \"birthdate\": \"2022-09-12\",\n            \"nationality\": \"Malagasy\",\n            \"address\": \"Palma Street\",\n            \"phone\": \"123456\",\n            \"email\": \"user@example.com\",\n            \"registrationDate\": \"2022-09-14\",\n            \"creditCardNumber\": \"555488879\",\n            \"password\": \"doeitjohn\"\n        }\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/hotels/1/rooms/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hotels",
+								"1",
+								"rooms",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "create transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client\": 1,\n  \"client_card_ref\": \"15151552\",\n  \"amount\": 120000,\n  \"transactionDate\" : \"2022-09-15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get transaction list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get transaction by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transactions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "add new admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"luigi\",\n    \"password\":\"bro\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "bro",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "luigi",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
