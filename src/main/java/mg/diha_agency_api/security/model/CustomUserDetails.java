@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ToString
 public class CustomUserDetails implements UserDetails {
 
-  private Client client;
+  private final Client client;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,12 +30,12 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override

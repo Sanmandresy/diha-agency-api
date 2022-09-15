@@ -1,41 +1,50 @@
 package mg.diha_agency_api.security;
 
+import java.security.Principal;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mg.diha_agency_api.model.Client;
 import mg.diha_agency_api.repository.ClientRepository;
+import mg.diha_agency_api.security.model.CustomUserDetails;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class CustomAuthProvider implements AuthenticationProvider {
+@Slf4j
+public class CustomAuthProvider extends AbstractUserDetailsAuthenticationProvider {
 
-  private ClientRepository clientRepository;
+  private final ClientRepository clientRepository;
 
+  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   @Override
-  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-    String username = authentication.getName();
-    String password = authentication.getCredentials().toString();
-
-    Client client = clientRepository.findByUsername(username).orElse(null);
-
-    if(client != null && new BCryptPasswordEncoder().matches(password , client.getPassword())){
-      return new UsernamePasswordAuthenticationToken(username, password);
-    }else{
-      throw new BadCredentialsException("Username and/or Password invalid !");
-    }
+  protected void additionalAuthenticationChecks(UserDetails userDetails,
+                                                UsernamePasswordAuthenticationToken authentication)
+      throws AuthenticationException {
 
   }
 
   @Override
-  public boolean supports(Class<?> authentication) {
-    return authentication.equals(UsernamePasswordAuthenticationToken.class);
+  protected UserDetails retrieveUser(String username,
+                                     UsernamePasswordAuthenticationToken authentication)
+      throws AuthenticationException {
+      String email = authentication.getName();
+      String password = authentication.getCredentials().toString();
+
+      Client client = clientRepository.findByUsername(email).orElse(null);
+
+      if(client != null && passwordEncoder.matches(password, client.getPassword())) {
+        return new CustomUserDetails(client);
+      } else {
+        throw new BadCredentialsException("Invalid username and/or password !");
+      }
   }
 }

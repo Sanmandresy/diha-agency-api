@@ -2,6 +2,7 @@ package mg.diha_agency_api.security;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mg.diha_agency_api.service.UserDetailService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,29 +17,32 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConf extends WebSecurityConfigurerAdapter {
 
   private CustomAuthProvider authProvider;
+  private UserDetailService detailService;
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(authProvider);
+    auth.authenticationProvider(authProvider).userDetailsService(detailService);
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.
-        authorizeRequests()
-        .antMatchers("/**").permitAll()
-        .antMatchers(HttpMethod.GET,"/hello","hello_there").permitAll()
-        .antMatchers(HttpMethod.POST,"/clients").permitAll()
-        .antMatchers(HttpMethod.GET,"/clients/*").permitAll()
-        .antMatchers(HttpMethod.GET,"/clients").permitAll()
-        .antMatchers(HttpMethod.GET,"/hotels").permitAll()
-        .antMatchers(HttpMethod.POST,"/hotels").permitAll()
-        .antMatchers(HttpMethod.POST,"/transactions").permitAll()
-        .and()
-        .formLogin().disable()
+        csrf().disable()
         .cors()
         .and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.GET,"/hello","hello_there").permitAll()
+        .antMatchers(HttpMethod.POST,"/clients").permitAll()
+        .antMatchers(HttpMethod.GET,"/clients/*").authenticated()
+        .antMatchers(HttpMethod.GET,"/clients").authenticated()
+        .antMatchers(HttpMethod.GET,"/hotels").authenticated()
+        .antMatchers(HttpMethod.POST,"/hotels").authenticated()
+        .antMatchers(HttpMethod.POST,"/transactions").authenticated()
+        .and()
+        .formLogin()
+        .and()
         .logout().disable()
-        .csrf().disable();
+        .httpBasic()
+    ;
   }
 }
