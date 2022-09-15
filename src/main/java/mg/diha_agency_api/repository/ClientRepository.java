@@ -15,8 +15,6 @@ public interface ClientRepository extends JpaRepository<Client,Long> {
 
   void removeClientByClientId(Long clientId);
 
-  Optional<Client> findByUsername(String username);
-
   @Query(value = "select c from Client c")
   List<Client> getAllClients(Sort sort);
 }

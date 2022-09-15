@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import mg.diha_agency_api.model.Hotel;
 import mg.diha_agency_api.service.HotelService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 public class HotelController {
 
   private HotelService service;

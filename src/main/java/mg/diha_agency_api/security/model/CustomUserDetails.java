@@ -3,7 +3,7 @@ package mg.diha_agency_api.security.model;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import mg.diha_agency_api.model.Client;
+import mg.diha_agency_api.model.Admin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ToString
 public class CustomUserDetails implements UserDetails {
 
-  private final Client client;
+  private final Admin admin;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,12 +20,12 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getPassword() {
-    return client.getPassword();
+    return admin.getPassword();
   }
 
   @Override
   public String getUsername() {
-    return client.getUsername();
+    return admin.getUsername();
   }
 
   @Override

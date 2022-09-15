@@ -940,9 +940,6 @@ components:
         registration_date:
           type: string
           format: date
-        password:
-          type: string
-          format: password
     Client:
       type: object
       properties:
@@ -980,9 +977,6 @@ components:
           format: date
         credit_card_number:
           type: string
-        password:
-          type: string
-          format: password
 
     PreHotel:
       type: object

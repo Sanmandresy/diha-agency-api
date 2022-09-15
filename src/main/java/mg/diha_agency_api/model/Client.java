@@ -58,7 +58,4 @@ public class Client implements Serializable {
   @Column(name = "credit_card_ref",unique = true)
   private String creditCardNumber;
 
-  @Column(nullable = false)
-  private String password;
-
 }
