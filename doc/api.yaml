@@ -27,25 +27,15 @@ paths:
       description: get all registered clients
       operationId: getClients
       parameters:
-      - name: page
+      - name: ordered
         in: query
-        description: number of page
+        description: ref for sort
         required: true
-        style: form
-        explode: true
         schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: max number of rows in a page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
+          type: string
       responses:
         "200":
-          description: returns a list of all clients
+          description: returns a list of all clients sorted by ordered params.
           content:
             application/json:
               schema:
@@ -268,82 +258,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerException'
-  /admins/{admin_id}:
-    get:
-      tags:
-      - Admin
-      description: get a specified admin details
-      operationId: getAdminById
-      parameters:
-      - name: admin_id
-        in: path
-        description: admin's id
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: returns a specific admin when its id is provided
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Admin'
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestException'
-        "403":
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotAuthorizedException'
-        "404":
-          description: Not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResourceNotFoundException'
-        "429":
-          description: Too many requests to the API
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TooManyRequestsException'
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerException'
   /hotels:
     get:
       tags:
       - Hotel
       description: get all hotels available
       operationId: getHotels
-      parameters:
-      - name: page
-        in: query
-        description: number of page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: max number of rows in a page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
       responses:
         "200":
           description: returns a list of hotels
@@ -402,7 +322,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerException'
-  /hotels/{location}:
+  /hotels/locations/{location}:
     get:
       tags:
       - Hotel
@@ -416,22 +336,6 @@ paths:
         explode: false
         schema:
           type: string
-      - name: page
-        in: query
-        description: number of page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: max number of rows in a page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
       responses:
         "200":
           description: returns a list of hotels
@@ -651,22 +555,6 @@ paths:
         explode: false
         schema:
           type: integer
-      - name: page
-        in: query
-        description: number of page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: max number of rows in a page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
       responses:
         "200":
           description: returns a list of rooms
@@ -676,7 +564,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Room'
-  /hotels/{hotel_id}/{room_id}:
+  /hotels/{hotel_id}/rooms/{room_id}:
     get:
       tags:
       - Hotel
@@ -741,7 +629,7 @@ paths:
     put:
       tags:
       - Hotel
-      description: modify a specified hotel's details
+      description: modify a specified room's details
       operationId: updateRoomById
       parameters:
       - name: hotel_id
@@ -874,23 +762,6 @@ paths:
       - Transaction
       description: get a list of all transactions
       operationId: getTransactions
-      parameters:
-      - name: page
-        in: query
-        description: number of page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
-      - name: page_size
-        in: query
-        description: max number of rows in a page
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
       responses:
         "200":
           description: returns a list of transactions
@@ -940,7 +811,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Transaction'
+              $ref: '#/components/schemas/PreTransaction'
         required: true
       responses:
         "200":
@@ -1043,6 +914,9 @@ components:
         last_name:
           type: string
           example: Doe
+        username:
+          type: string
+          example: jojoe
         sex:
           type: string
           enum:
@@ -1063,18 +937,26 @@ components:
           format: email
         credit_card_number:
           type: string
+        registration_date:
+          type: string
+          format: date
+        password:
+          type: string
+          format: password
     Client:
       type: object
       properties:
         id:
-          type: string
-          example: client_id
+          type: integer
         first_name:
           type: string
           example: John
         last_name:
           type: string
           example: Doe
+        username:
+          type: string
+          example: jojoe
         sex:
           type: string
           enum:
@@ -1093,19 +975,15 @@ components:
         email:
           type: string
           format: email
-        registration_datetime:
+        registration_date:
           type: string
-          format: date-time
+          format: date
         credit_card_number:
           type: string
-    Admin:
-      type: object
-      properties:
-        id:
+        password:
           type: string
-        username:
-          type: string
-          example: JohnDoeIt
+          format: password
+
     PreHotel:
       type: object
       properties:
@@ -1115,26 +993,6 @@ components:
         location:
           type: string
           example: Roma
-        details:
-          allOf:
-          - $ref: '#/components/schemas/HotelDetails'
-    Hotel:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: La Villa Romantica
-        location:
-          type: string
-          example: Roma
-        details:
-          allOf:
-          - $ref: '#/components/schemas/HotelDetails'
-    HotelDetails:
-      type: object
-      properties:
         description:
           type: string
         owner:
@@ -1149,6 +1007,32 @@ components:
         email:
           type: string
           format: email
+    Hotel:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: La Villa Romantica
+        location:
+          type: string
+          example: Roma
+        description:
+          type: string
+        owner:
+          type: string
+        number_of_rooms:
+          type: integer
+        ratings:
+          type: integer
+          example: 5
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+
     HotelServices:
       type: string
       enum:
@@ -1166,64 +1050,69 @@ components:
           type: string
           example: Venus
         room_type:
-          allOf:
-          - $ref: '#/components/schemas/RoomTypes'
+          type: string
+          example: double
         status:
-          allOf:
-          - $ref: '#/components/schemas/RoomStatus'
+          type: string
+          example: occupied
+        price:
+          type: integer
         startingDateBooking:
           type: string
-          format: date-time
+          format: date
         endingDateBooking:
           type: string
-          format: date-time
+          format: date
         client_details:
           allOf:
           - $ref: '#/components/schemas/Client'
     Room:
       type: object
       properties:
-        id:
-          type: string
-          example: room_id
+        room_id:
+          type: integer
+          example : 56
+        hotel:
+          allOf:
+            - $ref : "#/components/schemas/Hotel"
+        client:
+          allOf:
+            - $ref: "#/components/schemas/Client"
+        price :
+          type: integer
         ref:
           type: string
           example: Venus
         room_type:
-          allOf:
-          - $ref: '#/components/schemas/RoomTypes'
+          type: string
+          example: double
         status:
-          allOf:
-          - $ref: '#/components/schemas/RoomStatus'
+          type: string
+          example: occupied
         startingDateBooking:
           type: string
-          format: date-time
+          format: date
         endingDateBooking:
           type: string
-          format: date-time
-        client_details:
+          format: date
+    PreTransaction:
+      type: object
+      properties:
+        client:
           allOf:
-          - $ref: '#/components/schemas/Client'
-    RoomTypes:
-      type: string
-      enum:
-      - simple
-      - double
-      - family
-      - deluxe
-    RoomStatus:
-      type: string
-      enum:
-      - occupied
-      - booked
-      - free
+            - $ref: "#/components/schemas/Client"
+        client_card_ref:
+          type: string
+        amount:
+          type: integer
     Transaction:
       type: object
       properties:
-        id:
-          type: string
-        client_name:
-          type: string
+        id :
+          type: integer
+        client:
+          allOf:
+            - $ref: "#/components/schemas/Client"
         client_card_ref:
           type: string
         amount:
@@ -1232,9 +1121,10 @@ components:
       type: object
       properties:
         id:
-          type: string
-        client_name:
-          type: string
+          type: integer
+        client:
+          allOf:
+            - $ref: "#/components/schemas/Client"
         client_card_ref:
           type: string
         amount:
@@ -1242,12 +1132,6 @@ components:
         transaction_date:
           type: string
           format: date-time
-    Page:
-      type: integer
-      description: Start at `1`
-    PageSize:
-      type: integer
-      description: Cannot exceed `500`
     Exception:
       type: object
       properties:
